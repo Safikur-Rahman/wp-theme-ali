@@ -5,9 +5,12 @@
  * @package EasyLifeDaily
  */
 
+// Elementor Theme Builder Footer Support (Like Hello Elementor)
+$is_elementor_custom_footer = function_exists( 'elementor_theme_do_location' ) && elementor_theme_do_location( 'footer' );
 ?>
 	</div><!-- .site-content -->
 
+<?php if ( ! $is_elementor_custom_footer ) : ?>
 	<footer class="site-footer">
 		<div class="footer-inner">
 			<div class="footer-widgets">
@@ -82,6 +85,7 @@
 			</div><!-- .site-info -->
 		</div>
 	</footer><!-- .site-footer -->
+<?php endif; ?>
 
 </div><!-- .site-container -->
 

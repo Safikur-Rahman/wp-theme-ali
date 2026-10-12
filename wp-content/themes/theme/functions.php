@@ -52,8 +52,33 @@ function alishop_clone_setup() {
 	add_theme_support( 'wc-product-gallery-zoom' );
 	add_theme_support( 'wc-product-gallery-lightbox' );
 	add_theme_support( 'wc-product-gallery-slider' );
+
+	// Elementor Support (Like Hello Elementor)
+	add_theme_support( 'elementor' );
 }
 add_action( 'after_setup_theme', 'alishop_clone_setup' );
+
+/**
+ * Enable Elementor & CartFlows compatibility
+ */
+function alishop_elementor_cartflows_setup() {
+	add_post_type_support( 'page', 'elementor' );
+	add_post_type_support( 'post', 'elementor' );
+	add_post_type_support( 'cartflows_step', 'elementor' );
+}
+add_action( 'init', 'alishop_elementor_cartflows_setup' );
+
+// CartFlows Step Template Routing to ensure funnel pages load without theme conflicts
+add_filter( 'template_include', 'alishop_cartflows_step_template_route', 999 );
+function alishop_cartflows_step_template_route( $template ) {
+	if ( is_singular( 'cartflows_step' ) ) {
+		$step_template = get_template_directory() . '/single-cartflows_step.php';
+		if ( file_exists( $step_template ) ) {
+			return $step_template;
+		}
+	}
+	return $template;
+}
 
 /**
  * Disable WooCommerce Coming Soon / Maintenance Mode to display site homepage
@@ -878,6 +903,88 @@ function alishop_clone_customize_register( $wp_customize ) {
 		'type'     => 'text',
 	) );
 
+	// All Products Section Enable Toggle
+	$wp_customize->add_setting( 'alishop_allproducts_enable', array(
+		'default'           => true,
+		'sanitize_callback' => 'alishop_sanitize_checkbox',
+	) );
+	$wp_customize->add_control( 'alishop_allproducts_enable', array(
+		'label'    => __( 'Enable All Products Section (সেকশন চালু রাখুন)', 'alishop-clone' ),
+		'section'  => 'alishop_homepage_options',
+		'type'     => 'checkbox',
+	) );
+
+	// All Products - Show All Products Toggle
+	$wp_customize->add_setting( 'alishop_allproducts_show_all', array(
+		'default'           => false,
+		'sanitize_callback' => 'alishop_sanitize_checkbox',
+	) );
+	$wp_customize->add_control( 'alishop_allproducts_show_all', array(
+		'label'       => __( 'Show All Products (সকল প্রোডাক্ট একসাথে দেখান)', 'alishop-clone' ),
+		'description' => __( 'টিক দিলে পেজিনেশন বা লিমিট ছাড়াই স্টোরের সকল প্রোডাক্ট একসাথে এই সেকশনে দেখাবে।', 'alishop-clone' ),
+		'section'     => 'alishop_homepage_options',
+		'type'        => 'checkbox',
+	) );
+
+	// All Products - Enable Pagination
+	$wp_customize->add_setting( 'alishop_allproducts_pagination', array(
+		'default'           => true,
+		'sanitize_callback' => 'alishop_sanitize_checkbox',
+	) );
+	$wp_customize->add_control( 'alishop_allproducts_pagination', array(
+		'label'       => __( 'Enable Pagination (পেজিনেশন চালু রাখুন)', 'alishop-clone' ),
+		'description' => __( 'পরবর্তী পেজে যাওয়ার জন্য পেজিনেশন বাটন (১, ২, Next, Prev) দেখাবে। ("Show All Products" বন্ধ থাকলে এটি কাজ করবে)', 'alishop-clone' ),
+		'section'     => 'alishop_homepage_options',
+		'type'        => 'checkbox',
+	) );
+
+	// All Products - Products Per Page (for Pagination)
+	$wp_customize->add_setting( 'alishop_allproducts_per_page', array(
+		'default'           => 12,
+		'sanitize_callback' => 'absint',
+	) );
+	$wp_customize->add_control( 'alishop_allproducts_per_page', array(
+		'label'       => __( 'Products Per Page (প্রতি পেজে পণ্যের সংখ্যা)', 'alishop-clone' ),
+		'description' => __( 'পেজিনেশন চালু থাকলে প্রতি পেজে কতটি প্রোডাক্ট শো করবে (ডিফল্ট: ১২)', 'alishop-clone' ),
+		'section'     => 'alishop_homepage_options',
+		'type'        => 'number',
+	) );
+
+	// All Products - Total Limit (When pagination is disabled)
+	$wp_customize->add_setting( 'alishop_allproducts_limit', array(
+		'default'           => 12,
+		'sanitize_callback' => 'absint',
+	) );
+	$wp_customize->add_control( 'alishop_allproducts_limit', array(
+		'label'       => __( 'Total Product Limit (মোট পণ্যের সংখ্যা - পেজিনেশন বন্ধ থাকলে)', 'alishop-clone' ),
+		'description' => __( 'পেজিনেশন বন্ধ রাখলে সর্বোচ্চ কতটি পণ্য এই সেকশনে দেখাবে (ডিফল্ট: ১২)', 'alishop-clone' ),
+		'section'     => 'alishop_homepage_options',
+		'type'        => 'number',
+	) );
+
+	// All Products - Order By Setting
+	$wp_customize->add_setting( 'alishop_allproducts_orderby', array(
+		'default'           => 'date',
+		'sanitize_callback' => 'sanitize_text_field',
+	) );
+	$wp_customize->add_control( 'alishop_allproducts_orderby', array(
+		'label'       => __( 'Product Order By (পণ্য সাজানোর ক্রম)', 'alishop-clone' ),
+		'description' => __( 'All Products সেকশনে প্রোডাক্টগুলো কোন ক্রমানুসারে সাজানো হবে সিলেক্ট করুন।', 'alishop-clone' ),
+		'section'     => 'alishop_homepage_options',
+		'type'        => 'select',
+		'choices'     => array(
+			'date'        => __( 'Newest First (নতুন প্রোডাক্ট আগে)', 'alishop-clone' ),
+			'date_asc'    => __( 'Oldest First (পুরাতন প্রোডাক্ট আগে)', 'alishop-clone' ),
+			'price'       => __( 'Price: Low to High (কম দাম থেকে বেশি)', 'alishop-clone' ),
+			'price_desc'  => __( 'Price: High to Low (বেশি দাম থেকে কম)', 'alishop-clone' ),
+			'popularity'  => __( 'Best Selling / Popularity (সর্বাধিক বিক্রিত)', 'alishop-clone' ),
+			'title'       => __( 'Product Name: A to Z (নাম অনুযায়ী)', 'alishop-clone' ),
+			'title_desc'  => __( 'Product Name: Z to A (নাম অনুযায়ী উল্টো)', 'alishop-clone' ),
+			'rand'        => __( 'Random (এলোমেলো)', 'alishop-clone' ),
+			'menu_order'  => __( 'Menu / Custom Order (কাস্টম অর্ডার)', 'alishop-clone' ),
+		),
+	) );
+
 	// ----------------------------------------------------
 	// AliShop Product FAQs Section in Customizer
 	// ----------------------------------------------------
@@ -1237,6 +1344,230 @@ function alishop_render_homepage_products( $cat_slug = '', $limit = 10, $demo_fa
 			</div>
 			<?php
 		}
+	}
+}
+
+/**
+ * Render All Products Grid Section on Homepage with Customizer controls:
+ * Show All option, per page control, total limit, orderby, and numbered pagination.
+ */
+function alishop_render_homepage_all_products( $demo_fallback = array() ) {
+	$show_all          = (bool) get_theme_mod( 'alishop_allproducts_show_all', false );
+	$enable_pagination = (bool) get_theme_mod( 'alishop_allproducts_pagination', true );
+	$per_page          = (int) get_theme_mod( 'alishop_allproducts_per_page', 12 );
+	$total_limit       = (int) get_theme_mod( 'alishop_allproducts_limit', 12 );
+	$orderby_setting   = get_theme_mod( 'alishop_allproducts_orderby', 'date' );
+
+	if ( $per_page <= 0 ) {
+		$per_page = 12;
+	}
+	if ( $total_limit <= 0 ) {
+		$total_limit = 12;
+	}
+
+	// Determine current page for pagination (supports ?product_page=X, ?paged=X, and pretty permalinks)
+	$current_page = 1;
+	if ( isset( $_GET['product_page'] ) ) {
+		$current_page = max( 1, absint( $_GET['product_page'] ) );
+	} elseif ( get_query_var( 'paged' ) ) {
+		$current_page = max( 1, absint( get_query_var( 'paged' ) ) );
+	} elseif ( get_query_var( 'page' ) ) {
+		$current_page = max( 1, absint( get_query_var( 'page' ) ) );
+	}
+
+	$has_products = false;
+
+	if ( class_exists( 'WooCommerce' ) ) {
+		$args = array(
+			'post_type'   => 'product',
+			'post_status' => 'publish',
+		);
+
+		// Number of products to query
+		if ( $show_all ) {
+			$args['posts_per_page'] = -1;
+		} elseif ( $enable_pagination ) {
+			$args['posts_per_page'] = $per_page;
+			$args['paged']          = $current_page;
+		} else {
+			$args['posts_per_page'] = $total_limit;
+		}
+
+		// Order by handling
+		switch ( $orderby_setting ) {
+			case 'date_asc':
+				$args['orderby'] = 'date';
+				$args['order']   = 'ASC';
+				break;
+			case 'price':
+				$args['orderby']  = 'meta_value_num';
+				$args['meta_key'] = '_price';
+				$args['order']    = 'ASC';
+				break;
+			case 'price_desc':
+				$args['orderby']  = 'meta_value_num';
+				$args['meta_key'] = '_price';
+				$args['order']    = 'DESC';
+				break;
+			case 'popularity':
+				$args['orderby']  = 'meta_value_num';
+				$args['meta_key'] = 'total_sales';
+				$args['order']    = 'DESC';
+				break;
+			case 'title':
+				$args['orderby'] = 'title';
+				$args['order']   = 'ASC';
+				break;
+			case 'title_desc':
+				$args['orderby'] = 'title';
+				$args['order']   = 'DESC';
+				break;
+			case 'rand':
+				$args['orderby'] = 'rand';
+				break;
+			case 'menu_order':
+				$args['orderby'] = 'menu_order title';
+				$args['order']   = 'ASC';
+				break;
+			case 'date':
+			default:
+				$args['orderby'] = 'date';
+				$args['order']   = 'DESC';
+				break;
+		}
+
+		$query = new WP_Query( $args );
+
+		if ( $query->have_posts() ) {
+			$has_products = true;
+			?>
+			<div class="alishop-all-products-grid">
+				<?php
+				while ( $query->have_posts() ) {
+					$query->the_post();
+					global $product;
+					if ( ! $product ) continue;
+
+					$product_id       = $product->get_id();
+					$title            = get_the_title();
+					$link             = get_permalink();
+					$reg_price        = $product->get_regular_price();
+					$sale_price       = $product->get_price();
+					$discount         = 0;
+					if ( $reg_price && $sale_price && $reg_price > $sale_price ) {
+						$discount = round( ( ( $reg_price - $sale_price ) / $reg_price ) * 100 );
+					}
+					$img_url = get_the_post_thumbnail_url( $product_id, 'medium' );
+					if ( ! $img_url ) {
+						$img_url = wc_placeholder_img_src();
+					}
+					$add_to_cart_url  = $product->add_to_cart_url();
+					$add_to_cart_text = $product->add_to_cart_text();
+					$product_type     = $product->get_type();
+					$sku              = $product->get_sku();
+					$checkout_url     = class_exists( 'WooCommerce' ) ? wc_get_checkout_url() : home_url( '/checkout/' );
+					$order_now_url    = ( $product->is_type( 'variable' ) || ! $product->is_purchasable() ) ? $link : add_query_arg( 'add-to-cart', $product_id, $checkout_url );
+					?>
+					<div class="alishop-product-card-item">
+						<div class="card-thumb-box">
+							<?php if ( $discount > 0 ) : ?>
+								<span class="card-discount-tag"><?php echo esc_html( $discount ); ?>% OFF</span>
+							<?php endif; ?>
+							<a href="<?php echo esc_url( $link ); ?>">
+								<img src="<?php echo esc_url( $img_url ); ?>" alt="<?php echo esc_attr( $title ); ?>">
+							</a>
+						</div>
+						<div class="card-body-box">
+							<h3 class="card-product-title">
+								<a href="<?php echo esc_url( $link ); ?>"><?php echo esc_html( $title ); ?></a>
+							</h3>
+							<div class="card-price-box">
+								<?php if ( $reg_price && $reg_price > $sale_price ) : ?>
+									<del>৳<?php echo esc_html( $reg_price ); ?></del>
+								<?php endif; ?>
+								<span class="card-current-price">৳<?php echo esc_html( $sale_price ); ?></span>
+							</div>
+							<div class="card-action-btns">
+								<a href="<?php echo esc_url( $add_to_cart_url ); ?>" 
+								   data-quantity="1" 
+								   class="button product_type_<?php echo esc_attr( $product_type ); ?> add_to_cart_button ajax_add_to_cart card-add-cart-btn" 
+								   data-product_id="<?php echo esc_attr( $product_id ); ?>" 
+								   data-product_sku="<?php echo esc_attr( $sku ); ?>" 
+								   aria-label="<?php echo esc_attr( $product->add_to_cart_description() ); ?>" 
+								   title="<?php echo esc_attr( ! empty( $add_to_cart_text ) ? $add_to_cart_text : 'Add to Cart' ); ?>" 
+								   rel="nofollow">
+									<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
+								</a>
+								<a href="<?php echo esc_url( $order_now_url ); ?>" class="card-order-btn">
+									<?php echo esc_html( alishop_get_order_button_text() ); ?>
+								</a>
+							</div>
+						</div>
+					</div>
+					<?php
+				}
+				?>
+			</div>
+			<?php
+			// Render Pagination if enabled and there are multiple pages (and not showing all)
+			if ( ! $show_all && $enable_pagination && $query->max_num_pages > 1 ) {
+				$pagination_html = paginate_links( array(
+					'base'         => add_query_arg( 'product_page', '%#%' ),
+					'format'       => '',
+					'current'      => $current_page,
+					'total'        => $query->max_num_pages,
+					'prev_text'    => '&larr; পূর্ববর্তী',
+					'next_text'    => 'পরবর্তী &rarr;',
+					'type'         => 'plain',
+					'add_fragment' => '#all-products',
+				) );
+
+				if ( $pagination_html ) {
+					echo '<div class="alishop-pagination-wrapper">' . $pagination_html . '</div>';
+				}
+			}
+
+			wp_reset_postdata();
+		}
+	}
+
+	// Demo fallback if WooCommerce inactive or no products exist
+	if ( ! $has_products && ! empty( $demo_fallback ) ) {
+		?>
+		<div class="alishop-all-products-grid">
+			<?php
+			foreach ( $demo_fallback as $item ) {
+				?>
+				<div class="alishop-product-card-item">
+					<div class="card-thumb-box">
+						<span class="card-discount-tag"><?php echo esc_html( $item['off'] ); ?>% OFF</span>
+						<a href="<?php echo esc_url( class_exists('WooCommerce') ? get_permalink( wc_get_page_id( 'shop' ) ) : home_url('/product-details/') ); ?>">
+							<img src="<?php echo esc_url( $item['img'] ); ?>" alt="<?php echo esc_attr( $item['title'] ); ?>">
+						</a>
+					</div>
+					<div class="card-body-box">
+						<h3 class="card-product-title">
+							<a href="<?php echo esc_url( class_exists('WooCommerce') ? get_permalink( wc_get_page_id( 'shop' ) ) : home_url('/product-details/') ); ?>"><?php echo esc_html( $item['title'] ); ?></a>
+						</h3>
+						<div class="card-price-box">
+							<del>৳<?php echo esc_html( $item['reg'] ); ?></del>
+							<span class="card-current-price">৳<?php echo esc_html( $item['sale'] ); ?></span>
+						</div>
+						<div class="card-action-btns">
+							<a href="<?php echo esc_url( class_exists('WooCommerce') ? wc_get_cart_url() : home_url('/product-details/') ); ?>" class="card-add-cart-btn" aria-label="Add to Cart" title="Add to Cart">
+								<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
+							</a>
+							<a href="<?php echo esc_url( class_exists('WooCommerce') ? wc_get_checkout_url() : home_url('/checkout/') ); ?>" class="card-order-btn">
+								<?php echo esc_html( alishop_get_order_button_text() ); ?>
+							</a>
+						</div>
+					</div>
+				</div>
+				<?php
+			}
+			?>
+		</div>
+		<?php
 	}
 }
 

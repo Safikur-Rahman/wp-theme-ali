@@ -17,8 +17,13 @@
 
 <body <?php body_class(); ?>>
 <?php wp_body_open(); ?>
+<?php
+// Elementor Theme Builder Header Support (Like Hello Elementor)
+$is_elementor_custom_header = function_exists( 'elementor_theme_do_location' ) && elementor_theme_do_location( 'header' );
+?>
 <div class="site-container">
 	
+<?php if ( ! $is_elementor_custom_header ) : ?>
 	<header class="site-header">
 		<!-- Top Bar -->
 		<div class="top-bar">
@@ -135,5 +140,6 @@
 			</div>
 		</nav><!-- #site-navigation -->
 	</header><!-- .site-header -->
+<?php endif; ?>
 	
 	<div class="site-content">

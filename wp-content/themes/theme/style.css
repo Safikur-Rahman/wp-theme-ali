@@ -190,9 +190,11 @@ button, input, select, textarea {
   color: var(--secondary-color);
 }
 
-.site-branding img {
+.site-branding img,
+.custom-logo {
   max-height: 42px;
   width: auto;
+  object-fit: contain;
 }
 
 /* Header Search Form */
@@ -5102,6 +5104,101 @@ ul.products {
 /* Base Hamburger Button Rule (Hidden on Desktop) */
 .mobile-cat-hamburger-btn {
   display: none;
+}
+
+/* ==========================================================================
+   Elementor & CartFlows Funnel Compatibility (Like Hello Elementor)
+   ========================================================================== */
+.cartflows-canvas-template,
+.cartflows-canvas-template body {
+  margin: 0 !important;
+  padding: 0 !important;
+  background: #FFFFFF !important;
+}
+
+.cartflows-step-content-wrapper {
+  width: 100%;
+  min-height: 100vh;
+}
+
+.elementor-page-container,
+.elementor-single-container {
+  width: 100%;
+}
+
+.alishop-default-page-padding {
+  padding: 40px 15px 60px;
+}
+
+/* ==========================================================================
+   Homepage & Shop Pagination Styles
+   ========================================================================== */
+.alishop-pagination-wrapper,
+.shop-pagination-wrapper {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  gap: 8px !important;
+  margin: 35px 0 25px 0 !important;
+  padding: 10px 0 !important;
+  flex-wrap: wrap !important;
+  width: 100% !important;
+}
+
+.alishop-pagination-wrapper .page-numbers,
+.shop-pagination-wrapper .page-numbers {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  min-width: 42px !important;
+  height: 42px !important;
+  padding: 0 14px !important;
+  border-radius: 8px !important;
+  font-size: 15px !important;
+  font-weight: 600 !important;
+  text-decoration: none !important;
+  border: 1.5px solid #E5E7EB !important;
+  color: #374151 !important;
+  background-color: #FFFFFF !important;
+  transition: all 0.25s ease !important;
+  box-sizing: border-box !important;
+  cursor: pointer !important;
+}
+
+.alishop-pagination-wrapper a.page-numbers:hover,
+.shop-pagination-wrapper a.page-numbers:hover {
+  background-color: #FFF7ED !important;
+  color: #F97316 !important;
+  border-color: #F97316 !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 4px 10px rgba(249, 115, 22, 0.18) !important;
+}
+
+.alishop-pagination-wrapper .page-numbers.current,
+.shop-pagination-wrapper .page-numbers.current {
+  background: linear-gradient(135deg, #FF6600, #F97316) !important;
+  color: #FFFFFF !important;
+  border-color: #F97316 !important;
+  box-shadow: 0 4px 12px rgba(249, 115, 22, 0.35) !important;
+  pointer-events: none !important;
+}
+
+.alishop-pagination-wrapper .page-numbers.dots,
+.shop-pagination-wrapper .page-numbers.dots {
+  border: none !important;
+  background: transparent !important;
+  color: #9CA3AF !important;
+  min-width: 24px !important;
+  padding: 0 4px !important;
+  pointer-events: none !important;
+}
+
+.alishop-pagination-wrapper .page-numbers.prev,
+.alishop-pagination-wrapper .page-numbers.next,
+.shop-pagination-wrapper .page-numbers.prev,
+.shop-pagination-wrapper .page-numbers.next {
+  padding: 0 16px !important;
+  font-size: 14px !important;
 }
 
 

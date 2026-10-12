@@ -169,7 +169,7 @@ get_header();
 				'allproducts' => array(
 					'id'       => 'allproducts',
 					'order'    => (int) get_theme_mod( 'alishop_allproducts_order', 5 ),
-					'enabled'  => true,
+					'enabled'  => (bool) get_theme_mod( 'alishop_allproducts_enable', true ),
 					'title'    => get_theme_mod( 'alishop_allproducts_title', 'All Products' ),
 					'subtitle' => get_theme_mod( 'alishop_allproducts_subtitle', 'All products of the week' ),
 					'category' => '',
@@ -230,9 +230,7 @@ get_header();
 							</div>
 						</div>
 
-						<div class="alishop-all-products-grid">
-							<?php alishop_render_homepage_products( '', 12, $sec['demo'] ); ?>
-						</div>
+						<?php alishop_render_homepage_all_products( $sec['demo'] ); ?>
 					</section>
 					<?php
 				}
