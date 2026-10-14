@@ -2606,7 +2606,117 @@ ul.products {
 @media (max-width: 480px) {
   .card-action-btns .card-order-btn {
     font-size: 12px !important;
+    padding: 0 5px !important;
+  }
+}
+
+/* Responsive Product Card Optimizations for Small Screens (< 400px & < 370px) */
+@media (max-width: 400px) {
+  .alishop-container {
+    padding-left: 8px !important;
+    padding-right: 8px !important;
+  }
+
+  .alishop-product-card-item,
+  .products-carousel-track .alishop-product-card-item,
+  .alishop-all-products-grid .alishop-product-card-item {
+    padding: 6px 5px !important;
+  }
+
+  .alishop-product-card-item .card-body-box {
+    padding: 6px 0 0 0 !important;
+  }
+
+  .card-action-btns {
+    gap: 4px !important;
+  }
+
+  .card-action-btns .card-add-cart-btn {
+    width: 32px !important;
+    min-width: 32px !important;
+    max-width: 32px !important;
+    height: 32px !important;
+    flex: 0 0 32px !important;
+  }
+
+  .card-action-btns .card-add-cart-btn svg {
+    width: 15px !important;
+    height: 15px !important;
+  }
+
+  .card-action-btns .card-order-btn {
+    height: 32px !important;
+    font-size: 11.5px !important;
     padding: 0 4px !important;
+    letter-spacing: -0.2px !important;
+    white-space: nowrap !important;
+    flex: 1 1 auto !important;
+  }
+}
+
+@media (max-width: 370px) {
+  .alishop-container {
+    padding-left: 6px !important;
+    padding-right: 6px !important;
+  }
+
+  .alishop-product-card-item,
+  .products-carousel-track .alishop-product-card-item,
+  .alishop-all-products-grid .alishop-product-card-item {
+    padding: 5px 4px !important;
+  }
+
+  .card-action-btns {
+    gap: 3px !important;
+  }
+
+  .card-action-btns .card-add-cart-btn {
+    width: 28px !important;
+    min-width: 28px !important;
+    max-width: 28px !important;
+    height: 30px !important;
+    flex: 0 0 28px !important;
+  }
+
+  .card-action-btns .card-add-cart-btn svg {
+    width: 14px !important;
+    height: 14px !important;
+  }
+
+  .card-action-btns .card-order-btn {
+    height: 30px !important;
+    font-size: 11px !important;
+    padding: 0 3px !important;
+    letter-spacing: -0.25px !important;
+    white-space: nowrap !important;
+  }
+}
+
+@media (max-width: 330px) {
+  .alishop-product-card-item,
+  .products-carousel-track .alishop-product-card-item,
+  .alishop-all-products-grid .alishop-product-card-item {
+    padding: 4px 3px !important;
+  }
+
+  .card-action-btns {
+    gap: 2px !important;
+  }
+
+  .card-action-btns .card-add-cart-btn {
+    width: 26px !important;
+    min-width: 26px !important;
+    max-width: 26px !important;
+    height: 28px !important;
+    flex: 0 0 26px !important;
+  }
+
+  .card-action-btns .card-order-btn {
+    height: 28px !important;
+    font-size: 10px !important;
+    padding: 0 2px !important;
+    letter-spacing: -0.3px !important;
+    white-space: nowrap !important;
   }
 }
 
@@ -4378,23 +4488,41 @@ ul.products {
 
   .hero-slider-container {
     width: 100% !important;
+    height: auto !important;
+    min-height: unset !important;
     border-radius: 12px !important;
     overflow: hidden !important;
     background: transparent !important;
   }
 
-  .hero-slide-item {
-    height: 180px !important;
+  .hero-slider-track {
+    display: flex !important;
     width: 100% !important;
+    height: auto !important;
+  }
+
+  .hero-slide-item {
+    height: auto !important;
+    min-height: unset !important;
+    width: 100% !important;
+    flex: 0 0 100% !important;
     border-radius: 12px !important;
     overflow: hidden !important;
   }
 
+  .hero-slide-item a {
+    display: block !important;
+    width: 100% !important;
+    height: auto !important;
+  }
+
   .hero-slide-item img {
     width: 100% !important;
-    height: 100% !important;
-    object-fit: cover !important;
+    height: auto !important;
+    max-height: none !important;
+    object-fit: contain !important;
     border-radius: 12px !important;
+    display: block !important;
   }
 
   /* Hide Overlay Text Box on Mobile so Banner Graphics are 100% Clean */
@@ -4809,8 +4937,27 @@ ul.products {
     padding-right: 16px !important;
   }
 
+  .hero-slider-container {
+    height: auto !important;
+  }
+
   .hero-slide-item {
-    height: 320px !important;
+    height: auto !important;
+    min-height: unset !important;
+  }
+
+  .hero-slide-item a {
+    display: block !important;
+    width: 100% !important;
+    height: auto !important;
+  }
+
+  .hero-slide-item img {
+    width: 100% !important;
+    height: auto !important;
+    max-height: none !important;
+    object-fit: contain !important;
+    display: block !important;
   }
 
   /* Homepage 3-Column Tablet Product Carousel */

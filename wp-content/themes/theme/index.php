@@ -20,7 +20,7 @@ get_header();
 			$hero_arrows      = alishop_get_hero_arrow_icons();
 			$hero_width       = get_theme_mod( 'alishop_hero_width', '100%' );
 			$hero_height      = get_theme_mod( 'alishop_hero_height', '360px' );
-			$hero_height_mob  = get_theme_mod( 'alishop_hero_height_mobile', '220px' );
+			$hero_height_mob  = get_theme_mod( 'alishop_hero_height_mobile', 'auto' );
 			$arrow_color      = get_theme_mod( 'alishop_hero_arrow_color', '#FFFFFF' );
 			$arrow_bg         = get_theme_mod( 'alishop_hero_arrow_bg_color', '#F97316' );
 			$arrow_hover_bg   = get_theme_mod( 'alishop_hero_arrow_hover_bg_color', '#EA580C' );
@@ -41,9 +41,23 @@ get_header();
 				.hero-slide-item {
 					height: <?php echo esc_attr( $hero_height ); ?>;
 				}
-				@media (max-width: 768px) {
+				@media (max-width: 1024px) {
+					.hero-slider-container {
+						height: auto;
+					}
 					.hero-slide-item {
-						height: <?php echo esc_attr( $hero_height_mob ); ?>;
+						height: <?php echo ( ! empty( $hero_height_mob ) && 'auto' !== $hero_height_mob ) ? esc_attr( $hero_height_mob ) : 'auto'; ?>;
+					}
+					.hero-slide-item a {
+						display: block;
+						width: 100%;
+						height: 100%;
+					}
+					.hero-slide-item img {
+						width: 100%;
+						height: auto;
+						object-fit: contain;
+						display: block;
 					}
 				}
 			</style>

@@ -399,13 +399,13 @@ function alishop_clone_customize_register( $wp_customize ) {
 		'type'        => 'text',
 	) );
 
-	// 3. Banner Height (Mobile)
+	// 3. Banner Height (Mobile & Tablet)
 	$wp_customize->add_setting( 'alishop_hero_height_mobile', array(
-		'default'           => '220px',
+		'default'           => 'auto',
 		'sanitize_callback' => 'sanitize_text_field',
 	) );
 	$wp_customize->add_control( 'alishop_hero_height_mobile', array(
-		'label'       => __( 'Banner Mobile Height (e.g. 220px, 250px)', 'alishop-clone' ),
+		'label'       => __( 'Banner Mobile & Tablet Height (e.g. auto, 220px - "auto" keeps full banner without crop)', 'alishop-clone' ),
 		'section'     => 'alishop_hero_slider_options',
 		'type'        => 'text',
 	) );
