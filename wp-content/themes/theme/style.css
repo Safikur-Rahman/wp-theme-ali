@@ -3816,6 +3816,339 @@ ul.products {
 }
 
 /* ==========================================================================
+   Order Received / Thank You Page & Empty Cart Styles
+   ========================================================================== */
+.order-received-container {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.order-success-card {
+  background-color: #FFFFFF;
+  border-radius: 12px;
+  padding: 36px 20px;
+  text-align: center;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+  border: 1px solid var(--divider-color);
+  margin-bottom: 24px;
+}
+
+.success-icon-badge {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #22C55E 0%, #16A34A 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 16px;
+  box-shadow: 0 8px 20px rgba(34, 197, 94, 0.3);
+}
+
+.order-success-title {
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--secondary-color);
+  margin: 0 0 8px 0;
+}
+
+.order-success-subtitle {
+  font-size: 14px;
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+.order-meta-info-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.meta-info-item {
+  background-color: #FFFFFF;
+  padding: 14px 16px;
+  border-radius: 10px;
+  border: 1px solid var(--divider-color);
+  text-align: center;
+  box-shadow: var(--shadow-xs);
+}
+
+.meta-info-item.highlight {
+  border-color: var(--primary-color);
+  background-color: #FFF7ED;
+}
+
+.meta-info-label {
+  font-size: 12px;
+  color: var(--text-secondary);
+  display: block;
+  margin-bottom: 4px;
+  font-weight: 600;
+}
+
+.meta-info-val {
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--secondary-color);
+}
+
+.meta-info-item.highlight .meta-info-val {
+  color: var(--primary-color);
+}
+
+.order-details-two-col {
+  display: grid;
+  grid-template-columns: 1.3fr 1fr;
+  gap: 24px;
+}
+
+.order-products-card,
+.order-customer-card {
+  background-color: #FFFFFF;
+  border-radius: 12px;
+  padding: 20px;
+  border: 1px solid var(--divider-color);
+  box-shadow: var(--shadow-xs);
+}
+
+.card-section-title {
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--secondary-color);
+  margin: 0 0 16px 0;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #F1F5F9;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.order-items-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.order-item-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #F8FAFC;
+}
+
+.order-item-row:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.order-item-thumb {
+  width: 56px;
+  height: 56px;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid var(--divider-color);
+  background-color: #F8FAFC;
+  flex-shrink: 0;
+}
+
+.order-item-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.order-item-info {
+  flex: 1;
+}
+
+.order-item-name {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0 0 4px 0;
+  line-height: 1.4;
+}
+
+.order-item-qty {
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.order-item-price {
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--primary-color);
+}
+
+.order-pricing-breakdown {
+  border-top: 1px solid var(--divider-color);
+  padding-top: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.pricing-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  color: #4B5563;
+}
+
+.pricing-row.total-row {
+  border-top: 1px solid var(--divider-color);
+  padding-top: 10px;
+  margin-top: 4px;
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--secondary-color);
+}
+
+.pricing-row.total-row .final-amt {
+  color: var(--primary-color);
+  font-size: 18px;
+}
+
+.customer-info-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.customer-info-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  padding: 10px 12px;
+  background-color: #F8FAFC;
+  border-radius: 6px;
+}
+
+.customer-info-row .info-label {
+  color: var(--text-secondary);
+  font-weight: 600;
+}
+
+.customer-info-row .info-val {
+  color: var(--text-primary);
+  font-weight: 700;
+  text-align: right;
+  max-width: 65%;
+  word-break: break-word;
+}
+
+.order-action-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.btn-continue-shop {
+  width: 100%;
+  padding: 12px 16px;
+  background-color: var(--primary-color);
+  color: #FFFFFF !important;
+  border-radius: 8px;
+  text-align: center;
+  font-weight: 800;
+  font-size: 14px;
+  text-decoration: none;
+  display: block;
+  transition: background-color 0.2s ease;
+}
+
+.btn-continue-shop:hover {
+  background-color: var(--primary-hover);
+}
+
+.btn-return-home {
+  width: 100%;
+  padding: 10px 16px;
+  background-color: #F3F4F6;
+  color: var(--text-primary) !important;
+  border-radius: 8px;
+  text-align: center;
+  font-weight: 700;
+  font-size: 13px;
+  text-decoration: none;
+  display: block;
+  transition: background-color 0.2s ease;
+}
+
+.btn-return-home:hover {
+  background-color: #E5E7EB;
+}
+
+/* Empty Cart State */
+.checkout-empty-cart-card {
+  background-color: #FFFFFF;
+  border-radius: 12px;
+  padding: 48px 20px;
+  text-align: center;
+  max-width: 520px;
+  margin: 30px auto;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+  border: 1px solid var(--divider-color);
+}
+
+.empty-cart-icon-circle {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background-color: #FFF7ED;
+  font-size: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 16px;
+}
+
+.empty-cart-heading {
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--secondary-color);
+  margin-bottom: 8px;
+}
+
+.empty-cart-desc {
+  font-size: 14px;
+  color: var(--text-secondary);
+  margin-bottom: 20px;
+}
+
+.btn-shop-now {
+  display: inline-block;
+  padding: 12px 24px;
+  background-color: var(--primary-color);
+  color: #FFFFFF !important;
+  border-radius: 8px;
+  font-weight: 800;
+  font-size: 14px;
+  text-decoration: none;
+  transition: background-color 0.2s ease;
+}
+
+.btn-shop-now:hover {
+  background-color: var(--primary-hover);
+}
+
+@media (max-width: 768px) {
+  .order-meta-info-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .order-details-two-col {
+    grid-template-columns: 1fr;
+  }
+  .order-success-title {
+    font-size: 19px;
+  }
+}
+
+/* ==========================================================================
    MOBILE RESPONSIVE & CATEGORY DRAWER STYLES (MATCHING USER SCREENSHOTS)
    ========================================================================== */
 

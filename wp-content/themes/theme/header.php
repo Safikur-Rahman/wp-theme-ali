@@ -33,9 +33,9 @@ $is_elementor_custom_header = function_exists( 'elementor_theme_do_location' ) &
 				</div>
 				<div class="top-bar-right">
 					<span>Follow us:</span>
-					<a href="https://www.facebook.com/profile.php?id=61570898863722" target="_blank" rel="noopener">Facebook</a>
+					<a href="https://web.facebook.com/EasyLifeDaily01/" target="_blank" rel="noopener">Facebook</a>
 					<span>|</span>
-					<a href="https://www.youtube.com/@EasyLifeDailyBD" target="_blank" rel="noopener">YouTube</a>
+					<a href="https://www.youtube.com/@easylifedaily01" target="_blank" rel="noopener">YouTube</a>
 					<span>|</span>
 					<?php $top_phone = get_theme_mod( 'easylifedaily_phone_number', get_theme_mod( 'alishop_phone_number', '01617533063' ) ); ?>
 					<a href="tel:<?php echo esc_attr( preg_replace('/[^0-9+]/', '', $top_phone) ); ?>">📞 <?php echo esc_html( $top_phone ); ?></a>
